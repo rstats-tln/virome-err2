@@ -1,0 +1,26 @@
+---
+title: "Virome - ERR2 group"
+author: "AL,AM, PSR, DP"
+date: "3/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Importing libraries for data manipulation:
+```{r}
+library(tidyverse)
+library(lubridate)
+library(here)
+library(readr)
+```
+
+
+Importing dataset from .csv fail
+```{r}
+dataset <- dataset <- read_csv("data/phage_counts.csv")
+dataset
+```
+
