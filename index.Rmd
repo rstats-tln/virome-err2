@@ -9,18 +9,45 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Importing libraries for data manipulation:
+#Importing libraries for data manipulation:
 ```{r}
 library(tidyverse)
 library(lubridate)
 library(here)
 library(readr)
+library(dplyr)
 ```
 
 
-Importing dataset from .csv fail
+#Importing dataset from .csv fail
 ```{r}
 dataset <- dataset <- read_csv("data/phage_counts.csv")
 dataset
+```
+
+```{r}
+filter(dataset, timepoint == "0")
+```
+
+```{r}
+graph_1 <- dataset %>% 
+    group_by(., tax_id) %>% 
+    arrange(tax_id) %>% 
+    count(tax_id)
+graph_1
+```
+
+```{r}
+graph_1 %>% 
+    ggplot(aes(x = tax_id, y = n)) +
+    geom_point(aes(color = tax_id))
+```
+
+
+```{r}
+graph_1 %>% 
+    ggplot(aes(x = tax_id, y = n)) +
+    geom_point(aes(color = tax_id)) +
+    scale_y_log10()
 ```
 
