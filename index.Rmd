@@ -15,7 +15,7 @@ library(tidyverse)
 library(lubridate)
 library(here)
 library(readr)
-library(dplyr)
+library(dbplyr)
 ```
 
 
@@ -53,31 +53,82 @@ graph_1 %>%
 ```{r}
 sub <- dataset %>% select(subject) %>% count(subject)
 sub
-ravi <- dataset %>% select(subject, arm, timepoint) %>%  count(arm, subject)
-ravi
 ```
+
+```{r}
+ravi <- dataset %>% select(subject, arm, timepoint) %>% filter(arm == "M") %>%   count(arm, subject, timepoint)
+ravi
+placebo <- dataset %>% select(subject, arm, timepoint) %>% filter(arm == "P") %>%   count(arm, subject, timepoint)
+placebo
+```
+
+```{r}
+ggplot() +
+    geom_bar(data = ravi, aes( x = n, fill = timepoint), color = "red") +
+    geom_bar(data = placebo, aes(x = n, fill = timepoint), color = "blue")
+```
+
 
 ```{r}
 subOP <- dataset %>% 
     filter(timepoint == "0") %>% 
     filter( arm == "P") %>% 
     arrange(tax_id)
-count(subOP, tax_id)
+csubOP <- count(subOP, tax_id)
+csubOP
 
 sub2P <- dataset %>% 
     filter(timepoint == "2") %>% 
     filter( arm == "P") %>% 
     arrange(tax_id)
-count(sub2P, tax_id)
+csub2P <-count(sub2P, tax_id)
+csub2P
 
 sub4P <- dataset %>% 
-    filter(timepoint == "2") %>% 
+    filter(timepoint == "4") %>% 
     filter( arm == "P") %>% 
     arrange(tax_id)
-count(sub4P, tax_id)
+csub4P <- count(sub4P, tax_id)
+csub4P
 ```
 
 ```{r}
-sub04P <- full_join(subOP,sub2P, by = "tax_id")
+ggplot()+
+    geom_point(data = csubOP, aes(x = tax_id, y = n), color = "blue") +
+    geom_point(data = csub2P, aes(x = tax_id, y = n), color = "green") +
+    geom_point(data = csub4P, aes(x = tax_id, y = n ), color = "red" ) +
+    scale_y_log10()
 ```
+
+```{r}
+subOM <- dataset %>% 
+    filter(timepoint == "0") %>% 
+    filter( arm == "M") %>% 
+    arrange(tax_id)
+csubOM <- count(subOM, tax_id)
+csubOM
+
+sub2M <- dataset %>% 
+    filter(timepoint == "2") %>% 
+    filter( arm == "M") %>% 
+    arrange(tax_id)
+csub2M <-count(sub2M, tax_id)
+csub2M
+
+sub4M <- dataset %>% 
+    filter(timepoint == "4") %>% 
+    filter( arm == "M") %>% 
+    arrange(tax_id)
+csub4M <- count(sub4M, tax_id)
+csub4M
+```
+
+```{r}
+ggplot()+
+    geom_point(data = csubOP, aes(x = tax_id, y = n), color = "blue") +
+    geom_point(data = csub2P, aes(x = tax_id, y = n), color = "green") +
+    geom_point(data = csub4P, aes(x = tax_id, y = n ), color = "red" ) +
+    scale_y_log10()
+```
+
 
