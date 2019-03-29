@@ -50,4 +50,34 @@ graph_1 %>%
     geom_point(aes(color = tax_id)) +
     scale_y_log10()
 ```
+```{r}
+sub <- dataset %>% select(subject) %>% count(subject)
+sub
+ravi <- dataset %>% select(subject, arm, timepoint) %>%  count(arm, subject)
+ravi
+```
+
+```{r}
+subOP <- dataset %>% 
+    filter(timepoint == "0") %>% 
+    filter( arm == "P") %>% 
+    arrange(tax_id)
+count(subOP, tax_id)
+
+sub2P <- dataset %>% 
+    filter(timepoint == "2") %>% 
+    filter( arm == "P") %>% 
+    arrange(tax_id)
+count(sub2P, tax_id)
+
+sub4P <- dataset %>% 
+    filter(timepoint == "2") %>% 
+    filter( arm == "P") %>% 
+    arrange(tax_id)
+count(sub4P, tax_id)
+```
+
+```{r}
+sub04P <- full_join(subOP,sub2P, by = "tax_id")
+```
 
