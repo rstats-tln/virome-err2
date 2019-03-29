@@ -64,8 +64,8 @@ placebo
 
 ```{r}
 ggplot() +
-    geom_bar(data = ravi, aes( x = n, fill = timepoint), color = "red") +
-    geom_bar(data = placebo, aes(x = n, fill = timepoint), color = "blue")
+    geom_point(data = ravi, aes(x = subject,y = n, color = timepoint)) +
+    geom_point(data = placebo, aes(x = subject,y = n, color = timepoint), shape = 3)
 ```
 
 
